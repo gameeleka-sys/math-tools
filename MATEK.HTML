@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Matek Eszközök - Osztályok szerint</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Fejléc és Főmenü */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0 0 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            margin: 0 0 15px 0;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background-color: #1a252f;
+            padding: 10px 10px 0 10px;
+        }
+
+        .tab-btn {
+            background-color: #34495e;
+            color: #ecf0f1;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .tab-btn:hover {
+            background-color: #1abc9c;
+        }
+
+        .tab-btn.active {
+            background-color: #f4f4f9;
+            color: #2c3e50;
+        }
+
+        /* Tartalom területek */
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Modul kártyák */
+        section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .header-bg {
+            background-color: #555;
+            color: white;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background-color: #e8f5e9;
+            font-weight: bold;
+        }
+
+        /* Utolsó számjegy kiemelés stílusa */
+        .prefix-digits {
+            color: #888;
+        }
+
+        .last-digit-bold {
+            font-weight: bold;
+            color: #2e7d32;
+            background-color: #c8e6c9;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        /* Megjegyzés és szabályok stílusa */
+        .rules-list {
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .rules-list li {
+            margin-bottom: 8px;
+        }
+
+        .rule-pattern {
+            background-color: #e8f5e9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        /* Gombok stílusa */
+        .action-btn {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .calc-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 140px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            padding: 6px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calc-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button.calc-btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.calc-btn:hover {
+            background-color: #45a049;
+        }
+
+        button.rand-btn {
+            padding: 8px 16px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.rand-btn:hover {
+            background-color: #f57c00;
+        }
+
+        .result-box {
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        /* Rólam fül stílusa */
+        .about-card h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2196F3;
+        }
+
+        .about-card h3 {
+            color: #4CAF50;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .about-card ul {
+            padding-left: 20px;
+        }
+
+        .about-card li {
+            margin-bottom: 6px;
+        }
+
+        .about-footer {
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        /* Az információkba beágyazott rejtett szekció stílusa */
+        .secret-card {
+            background: #fff3e0;
+            border: 2px dashed #ff9800;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .secret-card h4 {
+            color: #e65100;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .secret-card p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Matematikai Eszközök</h1>
+        <nav class="nav-tabs">
+            <button class="tab-btn" onclick="openTab('osztaly5', event)">5. Osztály</button>
+            <button class="tab-btn" onclick="openTab('osztaly6', event)">6. Osztály</button>
+            <button class="tab-btn active" onclick="openTab('osztaly7', event)">7. Osztály</button>
+            <button class="tab-btn" onclick="openTab('osztaly8', event)">8. Osztály</button>
+            <button class="tab-btn" onclick="openTab('rolam', event)">Rólam 👋</button>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- 5. Osztály -->
+        <div id="osztaly5" class="tab-content">
+            <section>
+                <h2>5. Osztályos Eszközök</h2>
+                <p>Itt hamarosan megtalálhatók lesznek az 5. osztályos tananyagot segítő eszközök.</p>
+            </section>
+        </div>
+
+        <!-- 6. Osztály -->
+        <div id="osztaly6" class="tab-content">
+            <section>
+                <h2>6. Osztályos Eszközök</h2>
+                <p>Itt hamarosan megtalálhatók lesznek a 6. osztályos tananyagot segítő eszközök.</p>
+            </section>
+        </div>
+
+        <!-- 7. Osztály -->
+        <div id="osztaly7" class="tab-content active">
+
+            <!-- 1. Hatványtáblázat -->
+            <section>
+                <h2>Hatványtáblázat</h2>
+                <div class="table-container">
+                    <table id="power-table">
+                        <thead>
+                            <tr>
+                                <th>Kitevő \ Alap</th>
+                                <script>
+                                    for(let a = 2; a <= 10; a++) {
+                                        document.write(`<th>${a}</th>`);
+                                    }
+                                </script>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <script>
+                                for(let k = 2; k <= 10; k++) {
+                                    document.write(`<tr>`);
+                                    document.write(`<td class="header-bg">${k}</td>`);
+                                    for(let a = 2; a <= 10; a++) {
+                                        let val = Math.pow(a, k);
+                                        let valStr = val.toString();
+                                        let prefix = valStr.slice(0, -1);
+                                        let last = valStr.slice(-1);
+                                        document.write(`<td class="power-cell" data-full="${val}" data-prefix="${prefix}" data-last="${last}">${val}</td>`);
+                                    }
+                                    document.write(`</tr>`);
+                                }
+                            </script>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 2. Utolsó számjegyek szabályai -->
+            <section>
+                <h2>Észrevételek: Az utolsó számjegyek szabályai</h2>
+                <p>Ha megfigyeled a hatványok utolsó számjegyét, észreveheted, hogy azok ciklikusan (ismétlődve) változnak:</p>
+                <p>Az 1-es alapú hatványok eredménye mindig 1 lesz.</p>
+                <p>Az 1-es kitevők eredmény mindig az alap lesz..</p>
+                
+                <button class="action-btn" id="toggle-btn" onclick="toggleLastDigits()">
+                    Utolsó számjegyek kiemelése
+                </button>
+
+                <ul class="rules-list">
+                    <li><strong>5, 6, 10:</strong> Az utolsó számjegy sosem változik! A hatvány végződése mindig önmaga (<span class="rule-pattern">1</span>, <span class="rule-pattern">5</span>, <span class="rule-pattern">6</span>, <span class="rule-pattern">0</span>).</li>
+                    <li><strong>2 alap:</strong> Az utolsó számjegyek 4-es ciklusban ismétlődnek: <span class="rule-pattern">2, 4, 8, 6</span>.</li>
+                    <li><strong>3 alap:</strong> Az utolsó számjegyek 4-es ciklusban ismétlődnek: <span class="rule-pattern">3, 9, 7, 1</span>.</li>
+                    <li><strong>4 alap:</strong> Az utolsó számjegyek 2-es ciklusban váltakoznak: páratlan kitevőnél <span class="rule-pattern">4</span>, párosnál <span class="rule-pattern">6</span>.</li>
+                    <li><strong>7 alap:</strong> Az utolsó számjegyek 4-es ciklusban ismétlődnek: <span class="rule-pattern">7, 9, 3, 1</span>.</li>
+                    <li><strong>8 alap:</strong> Az utolsó számjegyek 4-es ciklusban ismétlődnek: <span class="rule-pattern">8, 4, 2, 6</span>.</li>
+                    <li><strong>9 alap:</strong> Az utolsó számjegyek 2-es ciklusban váltakoznak: páratlan kitevőnél <span class="rule-pattern">9</span>, párosnál <span class="rule-pattern">1</span>.</li>
+                </ul>
+            </section>
+
+            <!-- 3. Négyzettáblázat -->
+            <section>
+                <h2>Négyzetek (1–10)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Szám (n)</th>
+                            <th>Négyzet (n²)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <script>
+                            for(let i = 1; i <= 20; i++) {
+                                let high = (i % 2 === 0) ? 'class="highlight"' : '';
+                                document.write(`<tr ${high}><td>${i}</td><td>${i * i}</td></tr>`);
+                            }
+                        </script>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 4. Százalékkalkulátor -->
+            <section>
+                <h2>Százalékszámítás</h2>
+                <div class="calc-group">
+                    <label for="total">Alap (érték):</label>
+                    <input type="number" id="total" value="100">
+                </div>
+                <div class="calc-group">
+                    <label for="percent">Százalék (%):</label>
+                    <input type="number" id="percent" value="20" max="100" step="any">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="allow-decimal">
+                    <label for="allow-decimal" style="width: auto; font-weight: normal;">Tizedes tört százalék engedélyezése (1 tizedesjegy)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="integer-result">
+                    <label for="integer-result" style="width: auto; font-weight: normal;">Az eredmény pontosan egész szám legyen</label>
+                </div>
+
+                <div class="calc-buttons">
+                    <button class="calc-btn" onclick="calculate()">Számol</button>
+                    <button class="rand-btn" onclick="generateRandom()">🎲 Véletlenszerű adatok</button>
+                </div>
+                <div class="result-box">
+                    Eredmény: <strong><span id="result">-</span></strong>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 8. Osztály -->
+        <div id="osztaly8" class="tab-content">
+            <section>
+                <h2>8. Osztályos Eszközök</h2>
+                <p>Itt hamarosan megtalálhatók lesznek a 8. osztályos tananyagot segítő eszközök.</p>
+            </section>
+        </div>
+
+        <!-- Külön Rólam Fül -->
+        <div id="rolam" class="tab-content">
+            <section class="about-card">
+                <h2>Rólam 👋</h2>
+                <p><strong>Zalán vagyok!</strong> A szabadidőmben imádok kódolni, új technológiákat kipróbálni és olyan digitális eszközöket építeni, amik nemcsak hasznosak, de megkönnyítik a mindennapi tanulást és munkát.</p>
+
+                <h3>Miért készült ez az oldal?</h3>
+                <p>Ezt a weboldalt azért hoztam létre, hogy a matematika tanulása és gyakorlása egyszerűbb, interaktívabb és élvezetesebb legyen. A célom az volt, hogy a száraz táblázatok és képletek helyett egy olyan könnyen használható felületet építsek, ahol:</p>
+                
+                <ul>
+                    <li><strong>Gyakorolhatsz:</strong> A véletlenszerű feladatgenerálóval egy kattintással tesztelheted a tudásodat.</li>
+                    <li><strong>Felfedezhetsz mintázatokat:</strong> A hatványtáblázat kiemeléseivel gyorsan átláthatod az utolsó számjegyek ciklikus szabályait.</li>
+                    <li><strong>Testreszabhatod a feladatokat:</strong> Beállíthatsz tizedes törteket vagy kijelölheted, hogy pontosan egész szám legyen a végeredmény.</li>
+                </ul>
+
+                <div class="about-footer">
+                    💡 <em>Ha van ötleted, milyen új modullal vagy funkcióval bővülhetne az oldal, vagy csak benéznél a többi projektemre, vedd fel velem a kapcsolatot!</em>
+                </div>
+
+                <!-- Rejtett Titkos Szekció -->
+                <div id="secret-section" class="secret-card" style="display: none;">
+                    <h4>Weboldal fejlesztő: Udvarnoki Zalán, 7. osztályos diák</h4>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId, evt) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            if (evt) {
+                evt.currentTarget.classList.add('active');
+            }
+        }
+
+        let highlighted = false;
+
+        function toggleLastDigits() {
+            const cells = document.querySelectorAll('.power-cell');
+            const btn = document.getElementById('toggle-btn');
+            highlighted = !highlighted;
+
+            cells.forEach(cell => {
+                if (highlighted) {
+                    const prefix = cell.getAttribute('data-prefix');
+                    const last = cell.getAttribute('data-last');
+                    
+                    if (prefix) {
+                        cell.innerHTML = `<span class="prefix-digits">${prefix}</span><span class="last-digit-bold">${last}</span>`;
+                    } else {
+                        cell.innerHTML = `<span class="last-digit-bold">${last}</span>`;
+                    }
+                } else {
+                    cell.innerHTML = cell.getAttribute('data-full');
+                }
+            });
+
+            if (highlighted) {
+                btn.innerText = "Kiemelés megszüntetése";
+            } else {
+                btn.innerText = "Utolsó számjegyek kiemelése";
+            }
+        }
+
+        function calculate() {
+            const total = parseFloat(document.getElementById('total').value);
+            const percent = parseFloat(document.getElementById('percent').value);
+
+            if (!isNaN(total) && !isNaN(percent)) {
+                let result = (total * percent) / 100;
+                result = Math.round(result * 100) / 100;
+                document.getElementById('result').innerText = result;
+            } else {
+                document.getElementById('result').innerText = 'Hibás adat!';
+            }
+        }
+
+        function generateRandom() {
+            const allowDecimal = document.getElementById('allow-decimal').checked;
+            const mustBeInteger = document.getElementById('integer-result').checked;
+
+            let total, percent;
+
+            if (mustBeInteger) {
+                if (allowDecimal) {
+                    let targetResult = Math.floor(Math.random() * 100) + 1;
+                    const possibleTotals = [10, 20, 25, 40, 50, 80, 100, 125, 150, 160, 200];
+                    total = possibleTotals[Math.floor(Math.random() * possibleTotals.length)];
+                    
+                    percent = ((targetResult * 100) / total);
+                    while (percent > 100 || (percent * 10) % 1 !== 0) {
+                        targetResult = Math.floor(Math.random() * 50) + 1;
+                        total = possibleTotals[Math.floor(Math.random() * possibleTotals.length)];
+                        percent = ((targetResult * 100) / total);
+                    }
+                    percent = percent.toFixed(1);
+                } else {
+                    total = Math.floor(Math.random() * 200) + 1;
+                    let validPercents = [];
+                    for (let p = 1; p <= 100; p++) {
+                        if ((total * p) % 100 === 0) {
+                            validPercents.push(p);
+                        }
+                    }
+                    while (validPercents.length === 0) {
+                        total = Math.floor(Math.random() * 40) * 5 + 5;
+                        for (let p = 1; p <= 100; p++) {
+                            if ((total * p) % 100 === 0) {
+                                validPercents.push(p);
+                            }
+                        }
+                    }
+                    percent = validPercents[Math.floor(Math.random() * validPercents.length)];
+                }
+            } else {
+                total = Math.floor(Math.random() * 200) + 1;
+
+                if (allowDecimal) {
+                    percent = (Math.random() * 99 + 1).toFixed(1);
+                } else {
+                    percent = Math.floor(Math.random() * 100) + 1;
+                }
+            }
+
+            document.getElementById('total').value = total;
+            document.getElementById('percent').value = percent;
+            
+            document.getElementById('result').innerText = '-';
+        }
+
+        /* --- Titkos kód előhívó logika --- */
+        const secretCode = '1026';
+        let inputBuffer = '';
+
+        window.addEventListener('keydown', (e) => {
+            // Nem figyel, ha éppen beviteli mezőben áll a kurzor
+            const activeTag = document.activeElement.tagName.toLowerCase();
+            if (activeTag === 'input' || activeTag === 'textarea' || document.activeElement.isContentEditable) {
+                return;
+            }
+
+            if (e.key.length === 1) {
+                inputBuffer += e.key.toLowerCase();
+                
+                if (inputBuffer.length > secretCode.length) {
+                    inputBuffer = inputBuffer.slice(-secretCode.length);
+                }
+
+                if (inputBuffer === secretCode) {
+                    const secretSection = document.getElementById('secret-section');
+                    
+                    if (secretSection.style.display === 'none') {
+                        secretSection.style.display = 'block';
+                        secretSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        secretSection.style.display = 'none';
+                    }
+                    
+                    inputBuffer = '';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
