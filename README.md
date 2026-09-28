@@ -1,1 +1,1 @@
-# Matematika-eszk-z-k
+Oktatási jellegű kód
