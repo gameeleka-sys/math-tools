@@ -377,6 +377,7 @@
                 <button class="action-btn" id="toggle-btn" onclick="toggleLastDigits()">
                     Utolsó számjegyek kiemelése
                 </button>
+                
 
                 <ul class="rules-list">
                     <li><strong>5, 6, 10:</strong> Az utolsó számjegy sosem változik! A hatvány végződése mindig önmaga (<span class="rule-pattern">1</span>, <span class="rule-pattern">5</span>, <span class="rule-pattern">6</span>, <span class="rule-pattern">0</span>).</li>
@@ -391,7 +392,7 @@
 
             <!-- 3. Négyzettáblázat -->
             <section>
-                <h2>Négyzetek (1–10)</h2>
+                <h2>Négyzetek (1-10)</h2>
                 <table>
                     <thead>
                         <tr>
@@ -494,32 +495,31 @@
 
         let highlighted = false;
 
-        function toggleLastDigits() {
-            const cells = document.querySelectorAll('.power-cell');
-            const btn = document.getElementById('toggle-btn');
-            highlighted = !highlighted;
+function toggleLastDigits() {
+    const cells = document.querySelectorAll('.power-cell');
+    const btn = document.getElementById('toggle-btn');
+    highlighted = !highlighted;
 
-            cells.forEach(cell => {
-                if (highlighted) {
-                    const prefix = cell.getAttribute('data-prefix');
-                    const last = cell.getAttribute('data-last');
-                    
-                    if (prefix) {
-                        cell.innerHTML = `<span class="prefix-digits">${prefix}</span><span class="last-digit-bold">${last}</span>`;
-                    } else {
-                        cell.innerHTML = `<span class="last-digit-bold">${last}</span>`;
-                    }
-                } else {
-                    cell.innerHTML = cell.getAttribute('data-full');
-                }
-            });
-
-            if (highlighted) {
-                btn.innerText = "Kiemelés megszüntetése";
+    cells.forEach(cell => {
+        if (highlighted) {
+            const prefix = cell.getAttribute('data-prefix');
+            const last = cell.getAttribute('data-last');
+            
+            if (prefix) {
+                // Kept original prefix text, but wrapped in a white-text span
+                cell.innerHTML = `<span class="prefix-digits" style="color: white;">${prefix}</span><span class="last-digit-bold">${last}</span>`;
             } else {
-                btn.innerText = "Utolsó számjegyek kiemelése";
+                cell.innerHTML = `<span class="last-digit-bold">${last}</span>`;
             }
+        } else {
+            cell.innerHTML = cell.getAttribute('data-full');
         }
+    });
+
+    if (btn) {
+        btn.innerText = highlighted ? "Kiemelés megszüntetése" : "Utolsó számjegyek kiemelése";
+    }
+}
 
         function calculate() {
             const total = parseFloat(document.getElementById('total').value);
